@@ -3,7 +3,14 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import createToken from "../Auth/createJWT.js";
 import { sendVerificationEmail } from "../Auth/sellerVerification.js";
-import { createTemporarySeller, getSellers, getSellerbyEmail, createPermanentSeller, deleteTemporarySeller } from "../Models/seller.js";
+import {
+  createTemporarySeller,
+  getSellers,
+  getSellerbyEmail,
+  createPermanentSeller,
+  deleteTemporarySeller,
+  getSpecificSeller,
+} from "../Models/seller.js";
 
 dotenv.config();
 
@@ -65,6 +72,31 @@ export const verifySellerEmail = async (req, res) => {
     const newUser = await createPermanentSeller(user[0]);
     await deleteTemporarySeller(email);
     res.status(200).json(user);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const SellerLogin = async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  try {
+    const users = await getSpecificSeller(email);
+    const user = users[0];
+    if (!user) {
+      return res.status(404).json({ message: "Seller not found" });
+    }
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    } else {
+      const token = createToken({ email }, "1d");
+      return res.status(200).json({ token });
+    }
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
