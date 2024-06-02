@@ -15,11 +15,10 @@ export async function sendVerificationEmail(email, token){
     const verificationLink = `http://localhost:4000/customer/verify-email/${token}`;
 
     const mailContent = {
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: "Email Verification",
-      text: `Please verify your email by clicking the following link: 
-        <a href="${verificationLink}">Verify your account</a>`,
+        from: process.env.EMAIL_USER,
+        to: email,
+        subject: "Email Verification",
+        text: `Please verify your email by clicking the following link: <a href="${verificationLink}">Verify</a>`,
     };
 
     await transporter.sendMail(mailContent);
