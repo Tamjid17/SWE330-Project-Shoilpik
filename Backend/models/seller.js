@@ -68,3 +68,15 @@ export async function getSellers() {
   const [sellers] = await pool.query("SELECT * FROM seller");
     return sellers;
 }
+
+export async function getSpecificSeller(email) {
+    try {
+    const seller = await pool.query("SELECT * FROM seller WHERE email = ?", [
+        email,
+    ]);
+    return seller[0];
+    } catch (error) {
+    console.error(`Error fetching seller by email: ${email}`, error);
+    throw error;
+    }
+}
