@@ -2,8 +2,15 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import createToken from "../Auth/createJWT.js";
-import { sendVerificationEmail } from "../Auth/emailsend.js";
-import { createTemporaryCustomer, getCustomers } from "../Models/customer.js";
+import { sendVerificationEmail } from "../Auth/customerVerification.js";
+import {
+  createTemporaryCustomer,
+  getCustomers,
+  getCustomerbyEmail,
+  createPermanentCustomer,
+  deleteTemporaryCustomer,
+  getSpecificCustomer,
+} from "../Models/customer.js";
 
 export const customerRegister = async (req, res) => {
   var hashedPassword = await bcrypt.hashSync(req.body.password, 10);
