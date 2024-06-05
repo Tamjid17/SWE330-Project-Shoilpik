@@ -25,11 +25,16 @@ export async function createTemporaryCustomer({
 }
 
 export async function getCustomerbyEmail(email) {
+    try {
     const [result] = await pool.query(
     "SELECT * FROM temporary_buyer WHERE email = ?",
     [email]
     );
     return result;
+} catch (error) {
+    console.error(`Error fetching customer by email: ${email}`, error);
+    throw error;
+}
 }
 
 export async function createPermanentCustomer(user) {
@@ -51,4 +56,14 @@ export async function deleteTemporaryCustomer(email) {
 export async function getCustomers() {
     const [customers] = await pool.query("SELECT * FROM buyer");
     return customers;
+}
+
+export async function getSpecificCustomer(email) {
+    try {
+    const customer = await pool.query("SELECT * FROM buyer WHERE email = ?", [email]);
+    return customer[0];
+    } catch (error) {
+        console.error(`Error fetching customer by email: ${email}`, error);
+        throw error;
+    }
 }
