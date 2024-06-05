@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import createToken from "../Auth/createJWT.js";
 import { sendVerificationEmail } from "../Auth/emailsend.js";
-import { createTemporaryCustomer, getCustomers } from "../Models/customer.js";
+import { createTemporaryCustomer, getCustomers } from "../models/customer.js";
 
 export const customerRegister = async (req, res) => {
 
