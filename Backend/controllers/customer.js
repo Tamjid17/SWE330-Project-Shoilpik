@@ -12,8 +12,6 @@ import {
   getSpecificCustomer,
 } from "../Models/customer.js";
 
-dotenv.config();
-
 export const customerRegister = async (req, res) => {
   var hashedPassword = await bcrypt.hashSync(req.body.password, 10);
   const { name, gender, email, phone, address, dob } = req.body;
