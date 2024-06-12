@@ -8,11 +8,11 @@ export async function sendVerificationEmail(email, token) {
     port: 587,
     secure: false,
     auth: {
-        user: process.env.SMTP_USERNAME,
-        pass: process.env.SMTP_PASSWORD,
+        user: process.env.SMTP_USERNAME || 'towhidulislam932@gmail.com',
+        pass: process.env.SMTP_PASSWORD || 'nqeevkhctioevffe',
     },
     });
-    const verificationLink = `http://localhost:4000/seller/verify-email/${token}`;
+    const verificationLink = `http://localhost:4001/seller/verify-email/${token}`;
 
     const mailContent = {
     from: process.env.EMAIL_USER,

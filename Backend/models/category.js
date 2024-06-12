@@ -24,4 +24,10 @@ export const deleteCategory = async (id) => {
   const [result] = await pool.query('DELETE FROM category WHERE id = ?', [id]);
   return result.affectedRows > 0;
 };
+
+export const getProductByCategory = async (id) => {
+  const [rows] = await pool.query('SELECT * FROM product WHERE category_id = ?', [id]);
+  return rows;
+}
+
 //Sazzad
