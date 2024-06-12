@@ -10,7 +10,7 @@ import {
   createPermanentCustomer,
   deleteTemporaryCustomer,
   getSpecificCustomer,
-} from "../Models/customer.js";
+} from "../models/customer.js";
 
 export const customerRegister = async (req, res) => {
   var hashedPassword = await bcrypt.hashSync(req.body.password, 10);
