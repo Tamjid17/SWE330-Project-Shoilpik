@@ -20,7 +20,7 @@ const SellerLogin = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-200">
       <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-        <h2 className="text-2xl font-bold mb-5 text-center">Login as Seller</h2>
+        <h2 className="text-2xl font-bold mb-5 text-center underline">Login as Seller</h2>
         <form onSubmit={handleLogin}>
           <div className="mb-4">
             <label

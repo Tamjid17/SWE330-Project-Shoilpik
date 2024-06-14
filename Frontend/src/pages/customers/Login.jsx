@@ -21,7 +21,7 @@ const CustomerLogin = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-200">
       <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-        <h2 className="text-2xl font-bold mb-5 text-center">Login as Customer</h2>
+        <h2 className="text-2xl font-bold mb-5 text-center underline">Login as Customer</h2>
         <form onSubmit={handleLogin}>
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-700 mb-2">
