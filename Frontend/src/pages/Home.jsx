@@ -1,5 +1,5 @@
-import React from 'react'
-import Products from './Products'
+import React from "react";
+import ProductCard from "./ProductCard";
 import { Search } from "lucide-react";
 
 function Home() {
@@ -35,17 +35,17 @@ function Home() {
             </div>
           </div>
         </div>
-        <Products />
-        <Products />
-        <Products />
-        <Products />
-        <Products />
-        <Products />
-        <Products />
-        <Products />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
       </div>
     </div>
   );
 }
 
-export default Home
+export default Home;
