@@ -100,3 +100,14 @@ export const customerLogin = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+export const customerProfile = async (req, res) => {
+  const { email } = req.user;
+
+  try {
+    const user = await getSpecificCustomer(email);
+    return res.status(200).json(user);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
