@@ -1,6 +1,7 @@
 import { getAllproducts, getProductsById, createProduct, updateProduct, deleteProduct } from "../models/products.js";
 import { pool } from "../models/db.js";
-
+import fs from 'fs/promises';
+import path from 'path';
 export const getAllproductsController = async (req, res) => {
     if (req.user.role !== 'admin') {
         return res.status(403).json({ message: 'Forbidden' });
@@ -14,12 +15,32 @@ export const getAllproductsController = async (req, res) => {
 };
 
 export const getProductsByIdController = async (req, res) => {
-    if (req.user.role === 'admin' || req.user.role === 'seller_man') {
+    if (req.user.role === 'admin' || req.user.role === 'seller' || req.user.role === 'customer') {
       try {
         const product = await getProductsById(req.params.id);
   
         if (!product) {
           return res.status(404).json({ message: 'Product not found' });
+        }
+        if (product.image) {
+
+          try {
+            const imagePath = path.resolve(product.image); 
+            const imageData = await fs.readFile(imagePath);
+            const mimeType =
+              path.extname(imagePath).toLowerCase() === ".png"
+                ? "image/png"
+                : "image/jpg";
+            const base64Image = `data:${mimeType};base64,${imageData.toString(
+              "base64"
+            )}`; 
+            product.image = base64Image; 
+          } catch (imageError) {
+            console.error("Error reading image file:", imageError);
+            product.image = null; 
+          }
+        } else {
+          product.image = null; 
         }
         return res.status(200).json(product);
       } catch (error) {
