@@ -96,17 +96,28 @@ export const SellerLogin = async (req, res) => {
       return res.status(401).json({ message: "Invalid credentials" });
     } else {
       const [nameResult] = await pool.query('SELECT name FROM seller WHERE email = ?', [email]);
-      const [roleResult] = await pool.query('SELECT role FROM seller WHERE email = ?', [email]);
+      //const [roleResult] = await pool.query('SELECT role FROM seller WHERE email = ?', [email]);
       const [idResult] = await pool.query('SELECT seller_id FROM seller WHERE email = ?', [email]);
       
       const name = nameResult[0].name;
-      const role = roleResult[0].role;
+      const role = "seller";
       const id = idResult[0].seller_id;
       
       const payload = { id, name, email, role };
       const token = createToken(payload, "1d");
       return res.status(200).json({ token });
     }
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const sellerProfile = async (req, res) => {
+  const { email } = req.user;
+
+  try {
+    const user = await getSpecificSeller(email);
+    return res.status(200).json(user);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
