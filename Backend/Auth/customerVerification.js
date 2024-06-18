@@ -12,7 +12,7 @@ export async function sendVerificationEmail(email, token){
             pass: process.env.SMTP_PASSWORD
         }
     });
-    const verificationLink = `http://localhost:4000/customer/verify-email/${token}`;
+    const verificationLink = `http://localhost:4000/api/customer/verify-email/${token}`;
 
     const mailContent = {
         from: process.env.EMAIL_USER,

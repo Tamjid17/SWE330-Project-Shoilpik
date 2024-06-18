@@ -19,6 +19,9 @@ import SellerRegister from "./pages/sellers/Register.jsx";
 import CustomerLogin from "./pages/customers/Login.jsx";
 import CustomerRegister from "./pages/customers/Register.jsx";
 import Profile from "./pages/customers/Profile.jsx";
+import { Provider } from "react-redux";
+import store from "./features/store.js";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
@@ -41,6 +44,8 @@ const router = createBrowserRouter(
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
+    <Provider store={store}>
     <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );

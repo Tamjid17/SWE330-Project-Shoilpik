@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import customerRouter from './Routes/customer.js';
 import sellerRouter from './Routes/seller.js';
 import productRouter from './Routes/products.js';
@@ -14,12 +15,19 @@ dotenv.config();
 const port = process.env.SERVER_PORT || 4001;
 const app = express();
 
+const corsOptions = {
+  origin: "http://localhost:5173", 
+  methods: ["GET", "POST", "PUT", "DELETE"], 
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
-app.use('/customer', customerRouter);
-app.use('/seller', sellerRouter);
-app.use('/product', productRouter);
-app.use('/admin', adminRouter);
-app.use('/category', categoryRouter);
+app.use('/api/customer', customerRouter);
+app.use('/api/seller', sellerRouter);
+app.use('/api/product', productRouter);
+app.use('/api/admin', adminRouter);
+app.use('/api/category', categoryRouter);
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
