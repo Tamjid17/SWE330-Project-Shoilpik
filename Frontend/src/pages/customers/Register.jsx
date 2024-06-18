@@ -2,6 +2,9 @@ import React, {useState} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { useDispatch, useSelector } from "react-redux";
+import { setUser, setError, setLoading } from "../../features/userSlice";
+import axios from 'axios';
 
 const CustomerRegister = () => {
   const [name, setName] = useState('')
@@ -12,9 +15,12 @@ const CustomerRegister = () => {
   const [address, setAddress] = useState('')
   const [phone, setPhone] = useState('')
   const [dob, setDob] = useState('')
-  const navigate = useNavigate()
 
-  const handleRegister = (e) => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const { loading, error } = useSelector((state) => state.user);
+
+  const handleRegister = async (e) => {
     e.preventDefault();
     const size = password.length;
     if(password !== confirmpassword) {
@@ -25,7 +31,28 @@ const CustomerRegister = () => {
       alert("Password should be atleast 8 characters long.")
       return
     }
-    console.log("Registering with:", { name,email, password, gender, address, phone, dob});
+    console.log({name, email, password, phone, address, dob, gender});
+    dispatch(setLoading(true));
+    try {
+      const response = await axios.post(
+        "/api/customer/register",
+        {
+          name,
+          email,
+          password,
+          phone,
+          address,
+          dob,
+          gender,
+        }
+      );
+      dispatch(setUser(response.data));
+      alert('Registration successful! Please check your email for verification.');
+      navigate('/customer/login');
+    } catch (error) {
+      dispatch(setError(error.message));
+      alert(`Registration failed. ${error.message}.`);
+    }
   };
 
   const handleloginAsCustomer = () => {
@@ -179,6 +206,8 @@ const CustomerRegister = () => {
               required
             />
           </div>
+          {loading && <p className="text-blue-500">Registering...</p>}
+          {error && <p className="text-red-500">{error}</p>}
           <div className="flex flex-col justify-between items-center">
             <Button
               type="submit"
