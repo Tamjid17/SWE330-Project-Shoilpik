@@ -5,7 +5,7 @@ const sellerRouter = express.Router();
 
 sellerRouter.post("/register", sellerRegister);
 sellerRouter.get("/verify-email/:token", verifySellerEmail);
-sellerRouter.get("/login", SellerLogin);
+sellerRouter.post("/login", SellerLogin);
 sellerRouter.get("/profile", verifyToken, sellerProfile);
 
 export default sellerRouter;

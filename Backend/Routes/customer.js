@@ -10,7 +10,7 @@ const customerRouter = express.Router();
 
 customerRouter.post("/register", customerRegister);
 customerRouter.get("/verify-email/:token", verifyCustomerEmail);
-customerRouter.get("/login", customerLogin);
+customerRouter.post("/login", customerLogin);
 customerRouter.get("/profile", verifyToken, customerProfile);
 
 export default customerRouter;
