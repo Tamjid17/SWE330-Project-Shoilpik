@@ -9,6 +9,8 @@ import categoryRouter from './Routes/category.js';
 import { getCustomers } from './models/admin.js';
 import { createTemporaryCustomer } from './models/customer.js';
 import { getCustomerbyEmail, createPermanentCustomer, deleteTemporaryCustomer } from "./models/customer.js";
+import orderRouter from './Routes/orders.js';
+import orders_itemRouter from './Routes/orders_item.js';
 
 dotenv.config();
 
@@ -28,6 +30,8 @@ app.use('/api/seller', sellerRouter);
 app.use('/api/product', productRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/category', categoryRouter);
+app.use('/api/order', orderRouter);
+app.use('/api/order_item', orders_itemRouter);
 
 app.get('/', (req, res) => {
     res.send('Hello World!');

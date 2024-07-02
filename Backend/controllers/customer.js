@@ -11,6 +11,7 @@ import {
   deleteTemporaryCustomer,
   getSpecificCustomer,
 } from "../models/customer.js";
+import { pool } from "../models/db.js";
 
 export const customerRegister = async (req, res) => {
   var hashedPassword = await bcrypt.hashSync(req.body.password, 10);
@@ -92,7 +93,16 @@ export const customerLogin = async (req, res) => {
     if (!passwordMatch) {
       return res.status(401).json({ message: "Invalid credentials" });
     } else {
-      const token = createToken({ email }, "1d");
+      const [nameResult] = await pool.query('SELECT name FROM buyer WHERE email = ?', [email]);
+      const [roleResult] = await pool.query('SELECT role FROM buyer WHERE email = ?', [email]);
+      const [idResult] = await pool.query('SELECT buyer_id FROM buyer WHERE email = ?', [email]);
+      
+      const name = nameResult[0].name;
+      const role = roleResult[0].role;
+      const id = idResult[0].buyer_id;
+      
+      const payload = { id, name, email, role };
+      const token = createToken(payload, "1d");
       return res.status(200).json({ token }); 
   }
 

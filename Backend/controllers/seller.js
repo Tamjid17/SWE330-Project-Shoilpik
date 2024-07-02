@@ -96,11 +96,11 @@ export const SellerLogin = async (req, res) => {
       return res.status(401).json({ message: "Invalid credentials" });
     } else {
       const [nameResult] = await pool.query('SELECT name FROM seller WHERE email = ?', [email]);
-      //const [roleResult] = await pool.query('SELECT role FROM seller WHERE email = ?', [email]);
+      const [roleResult] = await pool.query('SELECT role FROM seller WHERE email = ?', [email]);
       const [idResult] = await pool.query('SELECT seller_id FROM seller WHERE email = ?', [email]);
       
       const name = nameResult[0].name;
-      const role = "seller";
+      const role = roleResult[0].role;
       const id = idResult[0].seller_id;
       
       const payload = { id, name, email, role };

@@ -53,7 +53,7 @@ export const getProductsByIdController = async (req, res) => {
   
 
   export const createProductController = async (req, res) => {
-    if (req.user.role !== 'seller_man') {
+    if (req.user.role !== 'seller') {
         return res.status(403).json({ message: 'Forbidden' });
     }
     try {
@@ -68,7 +68,7 @@ export const getProductsByIdController = async (req, res) => {
 
 export const updateProductController = async (req, res) => {
     const { id } = req.params;
-    if (req.user.role === 'admin' || req.user.role === 'seller_man') {
+    if (req.user.role === 'admin' || req.user.role === 'seller') {
         try {
             const { name, price, category_id, stock } = req.body;
             const success = await updateProduct(id, name, price, category_id, stock);

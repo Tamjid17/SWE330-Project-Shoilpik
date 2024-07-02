@@ -8,5 +8,5 @@ export const pool = mysql.createPool({
     user: process.env.MYSQL_USER || 'root',
     password: process.env.MYSQL_PASSWORD || '',
     port: process.env.MYSQL_PORT || 3306,
-    database: process.env.MYSQL_DATABASE || 'Shoilpik'
+    database: process.env.MYSQL_DATABASE || 'sailpik'
 }).promise();
