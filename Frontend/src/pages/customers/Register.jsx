@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useDispatch, useSelector } from "react-redux";
-import { setUser, setError, setLoading } from "../../features/userSlice";
+import { setUser, setError, setLoading } from "../../features/customerSlice";
 import axios from 'axios';
 
 const CustomerRegister = () => {

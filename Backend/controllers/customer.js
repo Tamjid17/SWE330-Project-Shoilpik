@@ -96,12 +96,16 @@ export const customerLogin = async (req, res) => {
       const [nameResult] = await pool.query('SELECT name FROM buyer WHERE email = ?', [email]);
       const [roleResult] = await pool.query('SELECT role FROM buyer WHERE email = ?', [email]);
       const [idResult] = await pool.query('SELECT buyer_id FROM buyer WHERE email = ?', [email]);
+      const [phoneResult] = await pool.query('SELECT phone FROM buyer WHERE email = ?', [email]);
+      const [addressResult] = await pool.query('SELECT address FROM buyer WHERE email = ?', [email]);
       
       const name = nameResult[0].name;
       const role = roleResult[0].role;
       const id = idResult[0].buyer_id;
+      const phone = phoneResult[0].phone;
+      const address = addressResult[0].address;
       
-      const payload = { id, name, email, role };
+      const payload = { id, name, email, role, phone, address};
       const token = createToken(payload, "1d");
       return res.status(200).json({ token }); 
   }

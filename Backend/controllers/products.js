@@ -1,7 +1,8 @@
-import { getAllproducts, getProductsById, createProduct, updateProduct, deleteProduct } from "../models/products.js";
+import { getAllproducts, getProductsById, getProductsBySellerId, createProduct, updateProduct, deleteProduct } from "../models/products.js";
 import { pool } from "../models/db.js";
 import fs from 'fs/promises';
 import path from 'path';
+import e from "express";
 export const getAllproductsController = async (req, res) => {
     if (req.user.role !== 'admin') {
         return res.status(403).json({ message: 'Forbidden' });
@@ -43,6 +44,37 @@ export const getProductsByIdController = async (req, res) => {
           product.image = null; 
         }
         return res.status(200).json(product);
+      } catch (error) {
+        return res.status(500).json({ error: error.message });
+      }
+    } else {
+      return res.status(403).json({ message: 'Forbidden' });
+    }
+  };
+
+  export const getProductsBySellerIdController = async (req, res) => {
+    if (req.user.role === 'admin' || req.user.role === 'seller') {
+      try {
+        const products = await getProductsBySellerId(req.params.seller_id);
+        if(!products) {
+          return res.status(404).json({ message: 'Products not found' });
+        }
+        if(products.image) {
+          try {
+            const imagePath = path.resolve(products.image);
+            const imageData = await fs.readFile(imagePath
+            );
+            const mimeType = path.extname(imagePath).toLowerCase() === '.png' ? 'image/png' : 'image/jpg';
+            const base64Image = `data:${mimeType};base64,${imageData.toString('base64')}`;
+            products.image = base64Image;
+          } catch (imageError) {
+            console.error('Error reading image file:', imageError);
+            products.image = null;
+          }
+        } else {
+          products.image = null;
+        } 
+        return res.status(200).json(products);
       } catch (error) {
         return res.status(500).json({ error: error.message });
       }

@@ -1,5 +1,5 @@
 import { pool } from "../models/db.js";
-import { create_orderItem, getAllOrder_items, getOrderItemByOrder_id, getOrderItemByProduct_id, getOrderItemBySeller_id } from "../models/order_item.js";
+import { create_orderItem, getAllOrder_items, getOrderItemByOrder_id, getOrderItemByProduct_id, getOrderItemBySeller_id, getOrderItemByBuyer_id } from "../models/order_item.js";
 
 export const create_orderItemController = async (req, res) => {
     if(req.user.role !== 'customer'){
@@ -127,5 +127,24 @@ export const getOrderItemBySeller_idController = async (req, res) => {
         }
     }else{
         return res.status(403).json({message: 'Forbidden'});
+    }
+}
+
+export const getOrderItemByBuyer_idController = async (req, res) => {
+    if (req.user.role === 'admin' || req.user.role === 'customer') {
+        try {
+            const buyer_id = req.params.buyer_id;
+            const order_items = await getOrderItemByBuyer_id(buyer_id);
+
+            if (order_items.length === 0) {
+                return res.status(404).json({ message: 'No product added to order' });
+            }
+
+            return res.status(200).json(order_items);
+        } catch (error) {
+            return res.status(500).json({ error: error.message });
+        }
+    } else {
+        return res.status(403).json({ message: 'Forbidden' });
     }
 }

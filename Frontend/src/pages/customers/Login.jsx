@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser, setError, setLoading } from "../../features/userSlice";
+import { setToken, setError, setLoading } from "../../features/customerSlice";
 import axios from 'axios';
 
 const CustomerLogin = () => {
@@ -12,10 +12,9 @@ const CustomerLogin = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, error } = useSelector((state) => state.user);
+  const { loading, error } = useSelector((state) => state.customer);
 
   const handleLogin = async (e) => {
-
     e.preventDefault();
     console.log("Logging in with:", { email, password });
 
@@ -28,14 +27,17 @@ const CustomerLogin = () => {
           password,
         }
       );
-      console.log('Data: ',response.data);
-      dispatch(setUser(response.data));
+      console.log('Data: ', response.data);
+      dispatch(setToken(response.data.token));
       localStorage.setItem("customerToken", response.data.token); 
       alert("Login successful.");
-      navigate('/');
+      console.log('Navigating to /customer/profile');
+      navigate('/customer/profile');
     } catch (error) {
       dispatch(setError(error.message));
       alert(`Login failed. ${error.message}.`);
+    } finally {
+      dispatch(setLoading(false));
     }
   };
 

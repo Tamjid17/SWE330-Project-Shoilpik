@@ -18,9 +18,11 @@ import SellerLogin from "./pages/sellers/Login.jsx";
 import SellerRegister from "./pages/sellers/Register.jsx";
 import CustomerLogin from "./pages/customers/Login.jsx";
 import CustomerRegister from "./pages/customers/Register.jsx";
-import Profile from "./pages/customers/Profile.jsx";
+import SellerProfile from "./pages/sellers/Profile.jsx";
 import { Provider } from "react-redux";
 import store from "./features/store.js";
+import CustomerProfile from "./pages/customers/Profile.jsx";
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -32,11 +34,12 @@ const router = createBrowserRouter(
       <Route path="seller">
         <Route path="login" element={<SellerLogin />} />
         <Route path="register" element={<SellerRegister />} />
+        <Route path="profile" element={<SellerProfile />} />
       </Route>
       <Route path="customer">
         <Route path="login" element={<CustomerLogin />} />
         <Route path="register" element={<CustomerRegister />} />
-        <Route path="profile" element={<Profile />} />
+        <Route path="profile" element={<CustomerProfile />} />
       </Route>
     </Route>
   )
@@ -45,7 +48,7 @@ const router = createBrowserRouter(
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
-    <RouterProvider router={router} />
+      <RouterProvider router={router} />
     </Provider>
   </React.StrictMode>
 );

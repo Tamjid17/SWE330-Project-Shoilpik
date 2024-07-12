@@ -10,6 +10,11 @@ export const getProductsById = async (product_id) => {
     return rows[0];
 }
 
+export const getProductsBySellerId = async (seller_id) => {
+    const [rows] = await pool.query('SELECT * FROM product WHERE seller_id = ?', [seller_id]);
+    return rows;
+}
+
 export const createProduct = async (name, price, seller_id, category_id, stock) => {
     const [result] = await pool.query('INSERT INTO product (product_name, price, seller_id, category_id, stock) VALUES (?, ?, ?, ?, ?)', [name, price, seller_id,
          category_id, stock]);
