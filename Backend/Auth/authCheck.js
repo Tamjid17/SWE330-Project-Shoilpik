@@ -8,7 +8,7 @@ export async function verifyToken(req, res, next) {
     const token = authHeader && authHeader.split(' ')[1];
     if (token == null) return res.sendStatus(401);
 
-    const secret =  process.env.ACCESS_TOKEN || '946fb70744dedab63210d32b09ff901a';
+    const secret =  process.env.ACCESS_TOKEN ;
     jwt.verify(token, secret, (err, user) => {
         if (err) return res.sendStatus(403).json({ message: 'Invalid token' });
         req.user = user;
