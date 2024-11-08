@@ -1,8 +1,8 @@
-import { getAllproducts, getProductsById, getProductsBySellerId, createProduct, updateProduct, deleteProduct } from "../models/products.js";
+import { getAllproducts, getProductsById, getProductsBySellerId, updateProduct, deleteProduct, createProductImage } from "../models/products.js";
 import { pool } from "../models/db.js";
 import fs from 'fs/promises';
 import path from 'path';
-import e from "express";
+import uploadOnCloudinary from '../utility/cloudinary.js';
 export const getAllproductsController = async (req, res) => {
     if (req.user.role !== 'admin') {
         return res.status(403).json({ message: 'Forbidden' });
@@ -84,18 +84,24 @@ export const getProductsByIdController = async (req, res) => {
   };
   
 
-  export const createProductController = async (req, res) => {
-    if (req.user.role !== 'seller') {
-        return res.status(403).json({ message: 'Forbidden' });
-    }
-    try {
-        const { name, price, category_id, stock } = req.body;
-        const seller_id = req.user.id; 
-        const productId = await createProduct(name, price, seller_id, category_id, stock);
-        res.status(201).json({ product_id: productId, seller_id, name, price, category_id, stock });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+export const createProductImageController = async (req, res) => {
+  if(req.user.role !== 'seller') {
+    return res.status(403).json({ message: 'Forbidden' });
+  }
+  try {
+    const localFilePath = req.file.path;
+    const cloudinaryResult = await uploadOnCloudinary(localFilePath);
+    const image = cloudinaryResult.url;
+    const seller_id = req.user.id;
+    console.log('Seller ID:', seller_id);
+    console.log('Image:', image);
+    const productId = await createProductImage(seller_id, image);
+    console.log('Product ID:', productId);
+    res.status(201).json({ message: 'Product image created', productId });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to create product image' });
+  }
+
 };
 
 export const updateProductController = async (req, res) => {

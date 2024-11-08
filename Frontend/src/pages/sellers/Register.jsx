@@ -18,7 +18,7 @@ const SellerRegister = () => {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { loading, error } = useSelector((state) => state.user);
+  const { loading, error } = useSelector((state) => state.seller);
 
   const handleRegister = async (e) => {
 
