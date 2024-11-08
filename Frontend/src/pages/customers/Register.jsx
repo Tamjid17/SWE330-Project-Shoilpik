@@ -18,7 +18,7 @@ const CustomerRegister = () => {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { loading, error } = useSelector((state) => state.user);
+  const { loading, error } = useSelector((state) => state.customer);
 
   const handleRegister = async (e) => {
     e.preventDefault();
