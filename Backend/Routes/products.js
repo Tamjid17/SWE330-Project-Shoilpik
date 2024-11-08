@@ -5,14 +5,16 @@ import {
     getProductsBySellerIdController,
     createProductController,
     updateProductController,
-    deleteProductControler
+    deleteProductControler,
+    getEveryProducts
 } from "../controllers/products.js";
 import { verifyToken } from "../Auth/authCheck.js";
 
 const productRouter = express.Router();
-productRouter.get("/", verifyToken, getAllproductsController);
+productRouter.get("/", getAllproductsController);
 productRouter.get("/:id", verifyToken, getProductsByIdController);
 productRouter.get("/seller/:seller_id", verifyToken, getProductsBySellerIdController);
+productRouter.get("/all", getEveryProducts);
 productRouter.post("/", verifyToken, createProductController);
 productRouter.put("/:id", verifyToken, updateProductController);
 productRouter.delete("/:id", verifyToken, deleteProductControler);

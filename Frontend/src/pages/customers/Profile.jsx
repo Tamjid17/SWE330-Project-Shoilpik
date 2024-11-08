@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductHistory } from '@/features/productHistorySlice';
 
@@ -59,7 +59,7 @@ function CustomerProfile() {
         {loading ? (
           <p>Loading...</p>
         ) : error ? (
-          <p>Error: {error}</p>
+          <p>Error: {error.message}</p>
         ) : (
           <div className="mt-5">
             <table className="min-w-full divide-y divide-gray-200">

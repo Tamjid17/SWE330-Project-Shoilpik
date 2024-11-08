@@ -1,6 +1,4 @@
-import React from "react";
 import ProductCard from "./ProductCard";
-import { Search } from "lucide-react";
 
 function Home() {
   return (
