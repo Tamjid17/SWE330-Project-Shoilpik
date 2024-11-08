@@ -42,14 +42,9 @@ function Home() {
             </div>
           </div>
         </div>
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
+        <div>{
+          items.map((item) => <ProductCard item={item} key={item.product_id} />)
+          }</div>
       </div>
     </div>
   );

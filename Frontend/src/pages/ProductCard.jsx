@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom";
 
 
-function ProductCard() {
+function ProductCard({ item }) {
   const navigate = useNavigate();
+  const { product_name, price } = item;
 
   const handleCardClick = () => {
-    navigate(`/products`);
+    navigate(`/products`, { state: { item } });
   };
   //add to cart logic
   return (
@@ -14,13 +15,13 @@ function ProductCard() {
       <figure className="px-10 pt-10">
         <img
           src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
-          alt="Shoes"
+          alt=""
           className="rounded-xl"
         />
       </figure>
       <div className="card-body items-center text-center">
-        <h2 className="card-title">Shoes!</h2>
-        <p>400 Tk</p>
+        <h2 className="card-title">{product_name}</h2>
+        <p>{price}</p>
         <div className="card-actions">
           <button className="btn btn-primary bg-lime-400 p-1 rounded-sm">Add to cart</button>
         </div>

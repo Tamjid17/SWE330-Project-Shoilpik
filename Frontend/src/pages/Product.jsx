@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const ProductPage = () => {
+  const { state } = useLocation();
+  const { item } = state;
   const [amount, setAmount] = useState(1);
 
   const handleDecrease = () => {
@@ -25,16 +28,19 @@ const ProductPage = () => {
       {/* Product Details */}
       <div className="w-full md:w-1/2 flex flex-col space-y-4 px-4 md:px-0">
         {/* Product Title */}
-        <h1 className="text-3xl font-bold text-gray-800">Product Title</h1>
+        <h1 className="text-3xl font-bold text-gray-800">
+          {item.product_name}
+        </h1>
 
         {/* Product Description */}
         <p className="text-gray-600 text-2xl">
           This is a detailed description of the product. It gives information
-          about the product's features, benefits, and usage.
+          about the product`s features, benefits, and usage.
         </p>
 
         {/* Amount Setter */}
         <div className="flex items-center justify-center space-x-4">
+          <p className="font-semibold text-lg">{item.price}৳</p>
           <button
             onClick={handleDecrease}
             className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
@@ -54,7 +60,9 @@ const ProductPage = () => {
           >
             +
           </button>
-          <button className="bg-lime-400 text-md md:text-xl lg:text-2xl p-2 rounded-xl">Add to Cart</button>
+          <button className="bg-lime-400 text-md md:text-xl lg:text-2xl p-2 rounded-xl">
+            Add to Cart
+          </button>
         </div>
       </div>
     </div>
