@@ -1,6 +1,15 @@
+import { useDispatch, useSelector } from "react-redux";
 import ProductCard from "./ProductCard";
+import { useEffect } from "react";
+import { fetchProducts } from "@/features/productSlice";
 
 function Home() {
+  const dispatch = useDispatch();
+  const { items } = useSelector(store => store.products)
+  useEffect(() => {
+    dispatch(fetchProducts())
+  }, [dispatch])
+  console.log(items)
   return (
     <div className="flex">
       <div className="w-1/4 min-h-screen bg-lime-200">

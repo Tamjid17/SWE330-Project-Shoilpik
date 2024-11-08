@@ -1,5 +1,5 @@
-import React from 'react'
 import { useNavigate } from "react-router-dom";
+
 
 function ProductCard() {
   const navigate = useNavigate();
