@@ -107,7 +107,6 @@ export const SellerLogin = async (req, res) => {
       const phone = phoneResult[0].phone;
       const address = addressResult[0].address;
 
-      console.log("Name: ", name, "Role: ", role, "ID: ", id, "Phone: ", phone, "Address: ", address);
       
       const payload = { id, name, email, role, phone, address};
       const token = createToken(payload, "1d");
