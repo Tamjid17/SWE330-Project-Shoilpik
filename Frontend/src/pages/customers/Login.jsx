@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { useDispatch, useSelector } from "react-redux";
 import { setToken, setError, setLoading } from "../../features/customerSlice";
 import axios from 'axios';
+import { fetchCartItems } from "@/features/cartSlice";
 
 const CustomerLogin = () => {
   const [email, setEmail] = useState("");
@@ -28,10 +29,12 @@ const CustomerLogin = () => {
         }
       );
       console.log('Data: ', response.data);
+      const { id } = response.data;
       dispatch(setToken(response.data.token));
       localStorage.setItem("customerToken", response.data.token); 
       alert("Login successful.");
       console.log('Navigating to /customer/profile');
+      dispatch(fetchCartItems(id));
       navigate('/customer/profile');
     } catch (error) {
       dispatch(setError(error.message));

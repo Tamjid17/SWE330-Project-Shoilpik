@@ -1,9 +1,9 @@
 import dotenv from 'dotenv';
-import { addToCarts, deleteFromCart, itemsFromCart, updateQuantity } from '../models/cart';
+import { addToCarts, deleteFromCart, itemsFromCart, updateQuantity } from '../models/cart.js';
 dotenv.config();
 
 export const addCartItem = async(req, res) => {
-    const { cart_id, buyer_id, proudct_id, product_name, price, quantity } = req.body;
+    const { cart_id, buyer_id, product_id, product_name, price, quantity } = req.body;
     if (
       !cart_id ||
       !buyer_id ||
@@ -18,7 +18,7 @@ export const addCartItem = async(req, res) => {
         const cart = await addToCarts({
           cart_id,
           buyer_id,
-          proudct_id,
+          product_id,
           product_name,
           price,
           quantity,

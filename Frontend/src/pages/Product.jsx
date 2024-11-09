@@ -1,16 +1,16 @@
-import { addItem, setError, setLoading } from "@/features/cartSlice";
-import { useId, useState } from "react";
+import { addCartItem } from "@/features/cartSlice";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import axios from "axios"
 const ProductPage = () => {
   const dispatch = useDispatch();
-  const uid = useId();
+  const { userInfo } = useSelector(store => store.customer);
+  const { id } = userInfo; 
   const {items} = useSelector(store => store.cart)
   const { state } = useLocation();
   const { item } = state;
   const [amount, setAmount] = useState(1);
-  const { product_id, price, product_name, seller_id, category_id, quantity } = item;
+  const { product_id, price, product_name } = item;
   console.log(items);
   const handleDecrease = () => {
     if (amount > 1) setAmount(amount - 1);
@@ -19,30 +19,19 @@ const ProductPage = () => {
   const handleIncrease = () => {
     setAmount(amount + 1);
   };
-  const handleSubmit = async(e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(setLoading(true));
-    try {
-      const response = await axios.post(
-        "api/cart/add",
-        {
-          uid,
-          seller_id,
-          product_id,
-          product_name,
-          price,
-          quantity,
-        },
-        dispatch(addItem(response))
-    )
-    } catch (err) {
-      dispatch(setError(err))
-    } finally {
-      dispatch(setLoading(false))
-    }
-    if(quantity < amount) return;
-    const cart_item = { product_id, price, amount, product_name, seller_id, category_id };
-    dispatch(addItem(cart_item))
+    const cart_id = generateId();
+    const cartItems = {
+      cart_id,
+      buyer_id: id,
+      product_id,
+      product_name,
+      price,
+      quantity: amount,
+    };
+    console.log(cartItems)
+    dispatch(addCartItem(cartItems));
   }
 
   return (
@@ -103,3 +92,7 @@ const ProductPage = () => {
 };
 
 export default ProductPage;
+
+const generateId = () => {
+  return Math.floor(Math.random() * 1000000); // Generates a random number between 0 and 999999
+};

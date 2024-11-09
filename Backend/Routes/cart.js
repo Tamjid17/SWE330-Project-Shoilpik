@@ -1,12 +1,12 @@
 import express from 'express';
-import { verifyToken } from '../Auth/authCheck';
-import { addCartItem, deleteCartItem, getCartItems, updateCartQuantity } from '../controllers/cart';
+import { verifyToken } from "../Auth/authCheck.js";
+import { addCartItem, deleteCartItem, getCartItems, updateCartQuantity } from '../controllers/cart.js';
 
 const cartRouter = express.Router();
 
-cartRouter.post('/add', verifyToken, addCartItem);
-cartRouter.delete('/delete', verifyToken, deleteCartItem);
-cartRouter.post('/update', verifyToken, updateCartQuantity);
-cartRouter.get('/getItems', verifyToken, getCartItems);
+cartRouter.post('/add', addCartItem);
+cartRouter.delete('/delete', deleteCartItem);
+cartRouter.post('/update',  updateCartQuantity);
+cartRouter.get('/getItems', getCartItems);
 
 export default cartRouter;

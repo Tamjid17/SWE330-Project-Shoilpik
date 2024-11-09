@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import ProductCard from "./ProductCard";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { fetchProducts } from "@/features/productSlice";
 
 function Home() {
