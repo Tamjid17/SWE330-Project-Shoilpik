@@ -1,11 +1,17 @@
-import { useState } from "react";
+import { addItem, setError, setLoading } from "@/features/cartSlice";
+import { useId, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-
+import axios from "axios"
 const ProductPage = () => {
+  const dispatch = useDispatch();
+  const uid = useId();
+  const {items} = useSelector(store => store.cart)
   const { state } = useLocation();
   const { item } = state;
   const [amount, setAmount] = useState(1);
-
+  const { product_id, price, product_name, seller_id, category_id, quantity } = item;
+  console.log(items);
   const handleDecrease = () => {
     if (amount > 1) setAmount(amount - 1);
   };
@@ -13,6 +19,31 @@ const ProductPage = () => {
   const handleIncrease = () => {
     setAmount(amount + 1);
   };
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    dispatch(setLoading(true));
+    try {
+      const response = await axios.post(
+        "api/cart/add",
+        {
+          uid,
+          seller_id,
+          product_id,
+          product_name,
+          price,
+          quantity,
+        },
+        dispatch(addItem(response))
+    )
+    } catch (err) {
+      dispatch(setError(err))
+    } finally {
+      dispatch(setLoading(false))
+    }
+    if(quantity < amount) return;
+    const cart_item = { product_id, price, amount, product_name, seller_id, category_id };
+    dispatch(addItem(cart_item))
+  }
 
   return (
     <div className="flex flex-col md:flex-col items-center justify-center md:justify-between p-6 max-w-4xl mx-auto space-y-6 md:space-y-0">
@@ -60,7 +91,9 @@ const ProductPage = () => {
           >
             +
           </button>
-          <button className="bg-lime-400 text-md md:text-xl lg:text-2xl p-2 rounded-xl">
+          <button
+            onClick={handleSubmit}
+            className="bg-lime-400 text-md md:text-xl lg:text-2xl p-2 rounded-xl">
             Add to Cart
           </button>
         </div>

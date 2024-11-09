@@ -11,6 +11,7 @@ import { createTemporaryCustomer } from './models/customer.js';
 import { getCustomerbyEmail, createPermanentCustomer, deleteTemporaryCustomer } from "./models/customer.js";
 import orderRouter from './Routes/orders.js';
 import orders_itemRouter from './Routes/orders_item.js';
+import cartRouter from './Routes/cart.js';
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ app.use('/api/admin', adminRouter);
 app.use('/api/category', categoryRouter);
 app.use('/api/order', orderRouter);
 app.use('/api/order_item', orders_itemRouter);
+app.use('/api/cart', cartRouter);
 
 app.get('/', (req, res) => {
     res.send('Hello World!');

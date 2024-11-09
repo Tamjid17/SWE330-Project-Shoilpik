@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Button } from "./ui/button";
 import DropdownMenu from "./ui/dropdown-menu";
-import { useSelector, useDispatch } from "react-redux"; 
+import { useDispatch } from "react-redux"; 
+import { setToggle } from "@/features/cartSlice";
 
 function Header() {
+  const dispatch = useDispatch();
+  function handleCart() {
+    dispatch(setToggle(prev => !prev));
+  }
+
   const loginItems = [
     { label: "Login as Customer", path: "/customer/login" },
     { label: "Login as Seller", path: "/seller/login" },
@@ -64,7 +70,7 @@ function Header() {
 
       {/* Dropdown Menus */}
       <div className="flex space-x-0 md:space-x-4 ml-0 md:ml-auto w-full md:w-auto justify-center md:justify-end">
-      <Button>
+        {/* <Button>
               <svg
                 className="w-6 h-6 text-gray-800 dark:text-white"
                 aria-hidden="true"
@@ -80,9 +86,10 @@ function Header() {
                   clipRule="evenodd"
                 />
               </svg>
-            </Button>
+            </Button> */}
         <DropdownMenu label="Login" items={loginItems} />
         <DropdownMenu label="Register" items={registerItems} />
+          <button onClick={handleCart}>Cart</button>
       </div>
     </div>
   );
