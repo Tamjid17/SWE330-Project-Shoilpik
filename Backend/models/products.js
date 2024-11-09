@@ -15,9 +15,8 @@ export const getProductsBySellerId = async (seller_id) => {
     return rows;
 }
 
-export const createProduct = async (name, price, seller_id, category_id, stock) => {
-    const [result] = await pool.query('INSERT INTO product (product_name, price, seller_id, category_id, stock) VALUES (?, ?, ?, ?, ?)', [name, price, seller_id,
-         category_id, stock]);
+export const createProductImage = async (seller_id, image) => {
+    const [result] = await pool.query('INSERT INTO product (seller_id, image) VALUES (?, ?)', [seller_id, image]);
     return result.insertId;
 }
 
