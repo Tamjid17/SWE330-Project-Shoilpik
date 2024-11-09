@@ -22,6 +22,7 @@ import SellerProfile from "./pages/sellers/Profile.jsx";
 import { Provider } from "react-redux";
 import store from "./features/store.js";
 import CustomerProfile from "./pages/customers/Profile.jsx";
+import ProductOverview from "./pages/productOverview.jsx";
 
 
 const router = createBrowserRouter(
@@ -31,6 +32,7 @@ const router = createBrowserRouter(
       <Route path="about" element={<About />} />
       <Route path="contact" element={<Contact />} />
       <Route path="products" element={<Products />} />
+      <Route path="products/:product_id" element={<ProductOverview/>} />
       <Route path="seller">
         <Route path="login" element={<SellerLogin />} />
         <Route path="register" element={<SellerRegister />} />

@@ -12,10 +12,10 @@ import { upload } from "../Auth/multer.js";
 import { verifyToken } from "../Auth/authCheck.js";
 
 const productRouter = express.Router();
-productRouter.get("/", getAllproductsController);
-productRouter.get("/:id", verifyToken, getProductsByIdController);
+productRouter.get("/all", getAllproductsController);
+productRouter.get("/:id", getProductsByIdController);
 productRouter.get("/seller/:seller_id", verifyToken, getProductsBySellerIdController);
-productRouter.post("/", verifyToken, createProductController);
+productRouter.post("/listing", verifyToken, upload.single("file"), createProductImageController);
 productRouter.put("/:id", verifyToken, updateProductController);
 productRouter.delete("/:id", verifyToken, deleteProductControler);
 
