@@ -30,7 +30,7 @@ const ProductPage = () => {
       price,
       quantity: amount,
     };
-    console.log(cartItems)
+    console.log(id, cartItems)
     dispatch(addCartItem(cartItems));
   }
 

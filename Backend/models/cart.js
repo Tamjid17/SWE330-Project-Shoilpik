@@ -37,8 +37,9 @@ export async function updateQuantity(cart_id, quantity) {
 }
 
 export async function itemsFromCart(buyer_id) {
-  const result = await pool.query("SELECT * FROM cart WHERE buyer_id = ?", [
-    buyer_id,
-  ]);
+  const result = await pool.query(
+    "SELECT cart_id, buyer_id, product_id, product_name, price, quantity FROM cart WHERE buyer_id = ?",
+    [buyer_id]
+  );
   return result;
 }

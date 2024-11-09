@@ -42,6 +42,7 @@ export function fetchCartItems(buyer_id) {
         console.log("Fetching cart items");
         const res = await axios.post("/api/cart/getItems", { buyer_id });
         dispatch(setItems(res.data));
+        console.log("Cart items fetched:", res.data); 
       } catch (err) {
         console.log(err.message)
         dispatch(setError(err.message));
@@ -59,7 +60,6 @@ export function addCartItem(cartItem) {
       console.log("Adding item to cart:", cartItem);
       const res = await axios.post("/api/cart/add", cartItem);
       dispatch(addItem(cartItem)); // Update the state with the new item
-      alert(res.data.message); // Show success message
     } catch (err) {
       console.error("Error adding item to cart:", err);
       dispatch(setError(err.message));
@@ -68,6 +68,23 @@ export function addCartItem(cartItem) {
       dispatch(setLoading(false));
     }
   };
+}
+
+export function deleteCartItem(cart_id) {
+  return async function (dispatch) {
+    dispatch(setLoading(true));
+
+  try {
+    const res = await axios.delete(`/api/cart/delete/${cart_id}`);
+    dispatch(deleteItem({ id: cart_id }));
+  } catch (err) {
+    console.error("Error adding item to cart:", err);
+    dispatch(setError(err.message));
+    alert(`Failed to delete item from cart. ${err.message}`);
+  } finally {
+    dispatch(setLoading(false));
+  }
+}
 }
 
 export default cartSlice.reducer

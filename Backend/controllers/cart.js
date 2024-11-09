@@ -52,7 +52,7 @@ export const updateCartQuantity = async(req, res) => {
 }
 
 export const deleteCartItem = async(req, res) => {
-    const { cart_id } = req.body;
+    const { cart_id } = req.params;
     if (!cart_id) {
       return res.status(400).json({ message: "All fields are required" });
     }
@@ -72,7 +72,8 @@ export const getCartItems = async(req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
     try {
-      const itemsByBuyer = await itemsFromCart(buyer_id);
+      const response = await itemsFromCart(buyer_id);
+      const itemsByBuyer = response[0];
       return res.status(200).json(itemsByBuyer);
     } catch (error) {
       return res.status(500).json({ message: error.message });

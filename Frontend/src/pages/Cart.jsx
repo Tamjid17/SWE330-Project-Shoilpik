@@ -1,8 +1,20 @@
-import { useDispatch } from "react-redux";
-import { setToggle } from "@/features/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCartItems, setToggle } from "@/features/cartSlice";
+import CartItem from "@/components/CartItem";
+import { useEffect } from "react";
 
 function Cart() {
   const dispatch = useDispatch();
+  const { userInfo } = useSelector(store => store.customer);
+  const { items, loading } = useSelector((store) => store.cart);
+  const { id } = userInfo;
+
+  useEffect(() => {
+    if(id) {
+      console.log(id);
+      dispatch(fetchCartItems(id))
+    }
+  }, [dispatch, id])
 
   function handleClose() {
     dispatch(setToggle(false));
@@ -19,10 +31,17 @@ function Cart() {
           &times;
         </button>
       </div>
-      <div className="space-y-4">
-        {/* Add cart item elements here */}
-        <p className="text-gray-700">No items in the cart yet!</p>
-      </div>
+      {loading ? (
+        <p className="text-gray-500">Loading...</p>
+      ) : (
+        <div className="space-y-4">
+          {items.length > 0 ? (
+            items.map((item) => <CartItem key={item.cart_id} item={item} />)
+          ) : (
+            <p className="text-gray-700">No items in the cart yet!</p>
+          )}
+        </div>
+      )}
       <div className="mt-6 border-t pt-4">
         <button className="w-full bg-lime-500 text-white py-2 rounded-lg hover:bg-lime-600">
           Proceed to Checkout

@@ -5,8 +5,8 @@ import { addCartItem, deleteCartItem, getCartItems, updateCartQuantity } from '.
 const cartRouter = express.Router();
 
 cartRouter.post('/add', addCartItem);
-cartRouter.delete('/delete', deleteCartItem);
+cartRouter.delete('/delete/:cart_id', deleteCartItem);
 cartRouter.post('/update',  updateCartQuantity);
-cartRouter.get('/getItems', getCartItems);
+cartRouter.post('/getItems', getCartItems);
 
 export default cartRouter;
