@@ -16,6 +16,12 @@ productRouter.get("/", getAllproductsController);
 productRouter.get("/:id", verifyToken, getProductsByIdController);
 productRouter.get("/seller/:seller_id", verifyToken, getProductsBySellerIdController);
 productRouter.put("/:id", verifyToken, updateProductController);
+productRouter.post(
+  "/listing",
+  verifyToken,
+  upload.single("file"),
+  createProductImageController
+);
 productRouter.delete("/:id", verifyToken, deleteProductControler);
 
 export default productRouter;
