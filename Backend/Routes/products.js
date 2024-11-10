@@ -15,7 +15,6 @@ const productRouter = express.Router();
 productRouter.get("/", getAllproductsController);
 productRouter.get("/:id", verifyToken, getProductsByIdController);
 productRouter.get("/seller/:seller_id", verifyToken, getProductsBySellerIdController);
-//productRouter.post("/", verifyToken, createProductController);
 productRouter.put("/:id", verifyToken, updateProductController);
 productRouter.delete("/:id", verifyToken, deleteProductControler);
 
